@@ -1,0 +1,13 @@
+---
+# tasks file for filebeat
+- name: install package
+  yum: name=https://download.elastic.co/beats/filebeat/filebeat-{{ version }}-x86_64.rpm state=present
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: download package
+  get_url: url=https://download.elastic.co/beats/filebeat/filebeat_{{ version }}_amd64.deb dest=/opt/filebeat_{{ version }}_amd64.deb
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+- name: install package ubuntu
+  apt: deb=/opt/filebeat_{{ version }}_amd64.deb
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
